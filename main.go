@@ -31,7 +31,7 @@ func main() {
 	}))
 	// To handle version 1 RESTful API requests.
 	v1Router := chi.NewRouter()
-	v1Router.HandleFunc("/healthz", handlerReadiness)
+	v1Router.Get("/healthz", handlerReadiness)
 	router.Mount("/v1", v1Router)
 	server := &http.Server {
 		Handler: router,
