@@ -29,11 +29,15 @@ func main() {
 		AllowCredentials:	false,
 		MaxAge:						300,
 	}))
+	// To handle version 1 RESTful API requests.
+	v1Router := chi.NewRouter()
+	v1Router.HandleFunc("/healthz", handlerReadiness)
+	router.Mount("/v1", v1Router)
 	server := &http.Server {
 		Handler: router,
 		Addr: ":" + portString,
 	}
-	fmt.Printf("Starting server on port %v", portString)
+	fmt.Printf("Starting server on port %v...", portString)
 	err = server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
